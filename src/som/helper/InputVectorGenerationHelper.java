@@ -473,8 +473,12 @@ public class InputVectorGenerationHelper {
 			
 			//executing the command to create DWM Files
 			try{
-				String command = ICommandLineConstants.RUN_GROWING_SOM_COMMNAD;
-				Runtime.getRuntime().exec(command);				
+				String command = ICommandLineConstants.RUN_GROWING_SOM_COMMAND_WINDOWS;
+				if(!GenericHelper.isWindows()){
+					command =  ICommandLineConstants.RUN_GROWING_SOM_COMMAND_LINUX;
+				}
+				Process p = Runtime.getRuntime().exec(command);	
+				p.waitFor();
 			}catch(Exception e){
 				System.out.println(e);
 			}

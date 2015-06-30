@@ -22,6 +22,7 @@ import static som.constants.IVisualizationConstants.MAX_DIMENSION;
 
 
 
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -31,13 +32,14 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
 
 import som.beans.VectorCoordinate;
 import som.constants.IGenericConstants;
 
 public class GenericHelper {
-	
+
 	public static double computeEuclideanDistanceForCoordinates(List<Integer> coordinate1, List<Integer> coordinate2)
 	{
 		double squareDistance = 0;
@@ -49,7 +51,7 @@ public class GenericHelper {
 		squareRootDistance = Math.sqrt(squareDistance);
 		return squareRootDistance;
 	}
-	
+
 	/**
 	 * 
 	 * @param secondOption
@@ -61,7 +63,7 @@ public class GenericHelper {
 				secondOption == stemmendBestWordFileOptionForSituationDescription ||
 				secondOption == stemmedBestWordFileOptionForSituationDescriptionAndMissionStatement;
 	}
-	
+
 	/**
 	 * 
 	 * @param secondOption
@@ -71,7 +73,7 @@ public class GenericHelper {
 		return secondOption == stemmendBestWordFileOptionForSituationDescription ||
 				secondOption == stemmedBestWordFileOptionForSituationDescriptionAndMissionStatement;
 	}
-	
+
 	/**
 	 * 
 	 * @param x
@@ -80,13 +82,13 @@ public class GenericHelper {
 	 * @return whether the point does not overlapp with one another
 	 */
 	public static boolean isDimensionCorrect(double x, double y, List<VectorCoordinate> dimensionList){
-				
+
 		boolean isDimensionCorrect = true;
-		
+
 		if(x <= MIN_DIMENSION || y<= MIN_DIMENSION || x >= MAX_DIMENSION || y >= MAX_DIMENSION){
 			return false;
 		}
-		
+
 		for(VectorCoordinate eachVectorCoordinate : dimensionList){
 			if(eachVectorCoordinate.isOverlapping(x, y)){
 				System.out.println(eachVectorCoordinate+ " is overalpping with x = "+x+" and y ="+y);
@@ -94,10 +96,10 @@ public class GenericHelper {
 				break;
 			}
 		}
-		
+
 		return isDimensionCorrect;
 	}
-	
+
 	/**
 	 * 
 	 * This function is added after migrating the code base to Struts2
@@ -108,12 +110,12 @@ public class GenericHelper {
 	 * @return
 	 */
 	public static String getServerPath(){
-		
+
 		return ServletActionContext.getRequest().getServerName()+IGenericConstants.COLON+
 				ServletActionContext.getRequest().getServerPort()+
 				ServletActionContext.getServletContext().getContextPath();
 	}
-	
+
 	/**
 	 * 
 	 * @param path
@@ -124,12 +126,28 @@ public class GenericHelper {
 		try{
 			inputStream = ServletActionContext.getServletContext().getResourceAsStream(path);
 			System.out.println("The File Url :"+inputStream.toString());
-			
+
 		} catch(Exception e){
 			e.printStackTrace();			
 		}
-		
+
 		return inputStream;
+	}
+
+
+	/**
+	 * 
+	 * @return whether the Operating system is Windows
+	 */
+	public static boolean isWindows()
+	{
+
+		String osName = System.getProperty("os.name");
+		if(StringUtils.isNotBlank(osName)){
+			return osName.startsWith("Windows");
+		} else {
+			return false;
+		}
 	}
 
 }
