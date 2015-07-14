@@ -92,6 +92,18 @@ public interface IGenericConstants {
 
 	//map for template vectors
 	Map<String,Integer> templateVectorCounterMap = new HashMap<String,Integer>();
+	
+	//column number to store stemmedData
+	int STEMMED_DATA_COLUMN_NUMBER = 26;
+	
+	//stemmed File 
+	String STEMMED_FILE = "stemmedcsv.csv";
+	
+	//windows path for generated files
+	String WIN_PATH_FOR_GENERATED = "C:\\apache-tomcat-7.0.62\\webapps\\generated\\";
+	
+	//linux path for generated files
+	String LINUX_PATH_FOR_GENERATED = "/var/lib/tomcat7/webapps/generated/";
 
 
 

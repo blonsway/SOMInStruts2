@@ -3,6 +3,10 @@ package som.adapter;
 //static imports
 import static som.constants.IGenericConstants.inputValuesMap;
 import static som.constants.IGenericConstants.INPUT_VECTOR_GENERATION_OPTION;
+
+import java.util.List;
+
+import som.constants.IGenericConstants;
 import som.helper.GenericHelper;
 import som.helper.MenuDrivenVectorGenerator;
 
@@ -14,10 +18,10 @@ public class Struts2Adapter {
 	 * @param secondOption
 	 * @return
 	 */
-	public static String getInputVectorFileGenerationStatus( int secondOption){		
+	public static String getInputVectorFileGenerationStatus(List<String> columnList){		
 		
 		return MenuDrivenVectorGenerator.createInputVectorFilesForStruts2(inputValuesMap, INPUT_VECTOR_GENERATION_OPTION
-				, secondOption);
+				, IGenericConstants.stemmendBestWordFileOptionForSituationDescription, columnList);
 	}
 	
 	/**

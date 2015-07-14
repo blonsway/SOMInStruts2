@@ -24,9 +24,12 @@ import static som.constants.IGenericConstants.excelSheetMapperListCaseCustom;
 
 
 
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Map;
+
 
 
 
@@ -108,12 +111,12 @@ public class MenuDrivenVectorGenerator extends ActionSupport{
 	 * 
 	 * @param input
 	 */
-	public static void createInputVectorsBasedOnOption(int firstOption, int secondOption){
+	public static void createInputVectorsBasedOnOption(int firstOption, int secondOption , List<String> columnList){
 		if(secondOption > maxNoOfOptions || secondOption < 0){
 			System.out.println("Option not present in the list");		
 		}
 		else{
-			InputVectorGenerationHelper.createInputVectors(inputValuesMap, firstOption,secondOption);
+			InputVectorGenerationHelper.createInputVectors(inputValuesMap, firstOption,secondOption, columnList);
 		}
 	}
 
@@ -159,7 +162,7 @@ public class MenuDrivenVectorGenerator extends ActionSupport{
 
 			handleCustomCoulumnInput(inputForSecondMenu);
 
-			createInputVectorsBasedOnOption(inputForFirstMenu,inputForSecondMenu);
+			createInputVectorsBasedOnOption(inputForFirstMenu,inputForSecondMenu,null);
 
 		}
 
@@ -176,12 +179,12 @@ public class MenuDrivenVectorGenerator extends ActionSupport{
 	 * @return
 	 */
 	public static String createInputVectorFilesForStruts2(Map<Integer, VectorData> inputValuesMap,int inputForFirstMenu,
-			int inputForSecondMenu){
+			int inputForSecondMenu, List<String> columnList){
 		if(inputForFirstMenu != visualOption){
 			
 			handleCustomCoulumnInput(inputForSecondMenu);
 
-			createInputVectorsBasedOnOption(inputForFirstMenu,inputForSecondMenu);
+			createInputVectorsBasedOnOption(inputForFirstMenu,inputForSecondMenu, columnList);
 
 		}
 

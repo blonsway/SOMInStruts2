@@ -10,11 +10,19 @@
 <body>
    <h1>Train your own Data using our Self Organizing Map</h1>
    <form action="criteriaSelection">
-      <label for="name">Please enter your option</label><br/>
-      <select  name="criteriaOption">
+      <label for="name">Please check your data you required for training</label><br/>
+      <!--  <select  name="criteriaOption">
       	<option value = "9">Situation Description</option>
       	<option value = "10">Mission Statement and Situation Description</option>
-      </select>
+      </select> -->
+      <input type="checkbox" name="criteriaOption" value="1" />Random Name<br/>
+	  <input type="checkbox" name="criteriaOption" value="2" />Redacted Mission Text<br/>
+	  <input type="checkbox" name="criteriaOption" value="3" />State/Province<br/>
+	  <input type="checkbox" name="criteriaOption" value="4" />Country<br/>
+	  <input type="checkbox" name="criteriaOption" value="5" />Social Sector<br/>
+	  <input type="checkbox" name="criteriaOption" value="6" />Tech Sector<br/>
+	  <input type="checkbox" name="criteriaOption" value="7" />Redacted Situation Text 
+	  
       <input type="submit" value="Train Your SOM"/>
    </form>
 </body>

@@ -18,6 +18,8 @@ import java.util.Set;
 
 
 
+
+
 //static import
 import static som.constants.IGenericConstants.inputValuesMap;
 import static som.constants.IGenericConstants.wordDictionary;
@@ -36,12 +38,15 @@ import static som.constants.IFileFactoryConstants.BEST_WORDS_FILE;
 import static som.constants.IFileFactoryConstants.BEST_WORDS_TEMPLATE_VECTOR_FILE;
 import static som.constants.IFileFactoryConstants.BEST_WORDS_FILE_GENERATOR;
 import static som.constants.IFileFactoryConstants.CUSTOM_SOM_PARSER_UNIT_OUTPUT_FILE;
+import static som.constants.IFileFactoryConstants.STEMMED_DATA_FILE_READER;
+
 
 
 
 import som.adapter.FileOperationsAdapter;
 import som.beans.VectorData;
 import som.constants.ICommandLineConstants;
+import som.constants.IGenericConstants;
 
 public class InputVectorGenerationHelper {
 
@@ -456,7 +461,8 @@ public class InputVectorGenerationHelper {
 	 * @param inputVectorMap
 	 * @param option
 	 */
-	public static void createInputVectors(Map<Integer,VectorData> inputVectorMap, int firstOption, int secondOption){
+	public static void createInputVectors(Map<Integer,VectorData> inputVectorMap, int firstOption, int secondOption, 
+			List<String> columnList){
 		FileOperationsAdapter fileOperAdapter = new FileOperationsAdapter();		
 
 		doPreliminaryTaskForStemmedInput(secondOption, fileOperAdapter);		
@@ -465,6 +471,12 @@ public class InputVectorGenerationHelper {
 		StringBuffer wordsDiscovered = fileOperAdapter.getTotalNoOfWords();
 
 		if(GenericHelper.isBestWordsOptionSelected(secondOption)){
+			//logic of calling the python script and generating the stemmed output goes here
+			if(columnList.size() > 0 ){
+				System.out.println("Reading into Stemmed Data and writing into Input File");
+				fileOperAdapter.readFromFile(STEMMED_DATA_FILE_READER,IGenericConstants.STEMMED_FILE);
+			}
+			
 			//prints the Best Words Vector file
 			fileOperAdapter.readFromFile(BEST_WORDS_FILE);
 			//browser through every VectorData object and 

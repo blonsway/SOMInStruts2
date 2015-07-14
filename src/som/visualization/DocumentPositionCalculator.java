@@ -108,11 +108,12 @@ public  class DocumentPositionCalculator {
 			Map<String,String> trainingDataFromSheetMap = DocumentVisualizationDetailsHelper.getSituationDescriptionFromExcelSheet(
 					IGenericConstants.visualizationOption, documentNumber);
 			visualDocumentsMap.put("organization_name", trainingDataFromSheetMap.get("organization_name"));
-			visualDocumentsMap.put("organization_website", trainingDataFromSheetMap.get("organization_website"));
+			visualDocumentsMap.put("mission statement", trainingDataFromSheetMap.get("mission statement"));
+			visualDocumentsMap.put("State/Province", trainingDataFromSheetMap.get("State/Province"));
+			visualDocumentsMap.put("Country", trainingDataFromSheetMap.get("Country"));
 			visualDocumentsMap.put("social_sector", trainingDataFromSheetMap.get("social_sector"));
 			visualDocumentsMap.put("tech_sector", trainingDataFromSheetMap.get("tech_sector"));
 			visualDocumentsMap.put("situation_description", trainingDataFromSheetMap.get("situation_description"));
-			visualDocumentsMap.put("technical_scope", trainingDataFromSheetMap.get("technical_scope"));
 
 			bmuCoordinatesJSONArray.put(visualDocumentsMap);
 			//for debudgging

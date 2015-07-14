@@ -1,6 +1,9 @@
 package som.struts2;
 
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 
 import som.adapter.Struts2Adapter;
@@ -19,16 +22,26 @@ public class SOMActionForCriteria extends ActionSupport{
 	public String execute() throws Exception {
 		try{
 			System.out.println("Calling execute method of SOMActionForCriteria");
-
-			int criteriaOption = Integer.parseInt(this.criteriaOption);
-			String status = Struts2Adapter.getInputVectorFileGenerationStatus(criteriaOption);
-			String statusOfViz = Struts2Adapter.getVisualizationOptionStatus();
-			if(StringUtils.equalsIgnoreCase(status,SUCCESS) && StringUtils.equalsIgnoreCase(statusOfViz,SUCCESS)){
-				return SUCCESS;
-			}
-			else{
+			System.out.println(this.criteriaOption);
+			if(criteriaOption != null && StringUtils.isNotBlank(criteriaOption)){
+				String[] criteriaArray = StringUtils.split(criteriaOption, ",");
+				List<String> columnList = Arrays.asList(criteriaArray);
+				System.out.println(columnList);
+				
+				//call the adapter
+				String status = Struts2Adapter.getInputVectorFileGenerationStatus(columnList);
+				String statusOfViz = Struts2Adapter.getVisualizationOptionStatus();
+				if(StringUtils.equalsIgnoreCase(status,SUCCESS) && StringUtils.equalsIgnoreCase(statusOfViz,SUCCESS)){
+					return SUCCESS;
+				}
+				else{
+					return ERROR;
+				}
+				
+			} else {
 				return ERROR;
 			}
+			
 		}catch (NumberFormatException ne){
 			return ERROR;
 		} catch (Exception e){

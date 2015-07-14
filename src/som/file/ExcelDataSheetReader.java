@@ -203,6 +203,7 @@ public class ExcelDataSheetReader implements IFileWritable{
 				}
 				else if(pos == 26){//AA
 					vectorData.setStemmedSituationDescription(cellValue);
+					System.out.println(cellValue);
 				}
 				else if(pos == 27){//AB
 					vectorData.setStemmedSituationDescriptionAndMissionStatement(cellValue);
@@ -225,7 +226,9 @@ public class ExcelDataSheetReader implements IFileWritable{
 		XSSFWorkbook workbook = null;
 		try {
 
-			InputStream file = GenericHelper.getFileFromServerUsingUrl(REVISED_INPUT_SHEET_NAME);
+			//InputStream file = GenericHelper.getFileFromServerUsingUrl(REVISED_INPUT_SHEET_NAME);
+			
+			FileInputStream file = new FileInputStream(new File(GenericHelper.getAbsolutePath()+REVISED_INPUT_SHEET_NAME));
 
 			//Get the workbook instance for XLS file 
 			workbook = new XSSFWorkbook(file);

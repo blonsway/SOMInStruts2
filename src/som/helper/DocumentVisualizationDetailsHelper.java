@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
 import som.adapter.FileOperationsAdapter;
 import som.beans.VectorData;
 
@@ -27,14 +29,16 @@ public class DocumentVisualizationDetailsHelper {
 		
 		VectorData vectorData =  vectorDataList.get(rowNumber);
 		
-		visualDocSheetMap.put("organization_name", vectorData.getOrganizatioName());
-		visualDocSheetMap.put("organization_website", vectorData.getOrganizationWebsite());
-		visualDocSheetMap.put("social_sector", vectorData.getSocialSector()!= null && 
-				"x".equalsIgnoreCase(vectorData.getSituationDescription()) ? "Yes" : "No");
-		visualDocSheetMap.put("tech_sector", vectorData.getSocialSector()!= null && 
-				"x".equalsIgnoreCase(vectorData.getSituationDescription()) ? "Yes" : "No");
+		visualDocSheetMap.put("organization_name", StringUtils.isNotBlank(vectorData.getOrganizatioName()) ?
+				vectorData.getOrganizatioName().toUpperCase() : "");
+		visualDocSheetMap.put("mission statement", vectorData.getMissionStatement());
+		visualDocSheetMap.put("State/Province", vectorData.getState());
+		visualDocSheetMap.put("Country", vectorData.getCountry());
+		visualDocSheetMap.put("social_sector",StringUtils.isNotBlank( vectorData.getSocialSector()) && 
+				"x".equalsIgnoreCase(vectorData.getSocialSector()) ? "1" : "0");
+		visualDocSheetMap.put("tech_sector",StringUtils.isNotBlank( vectorData.getTechSector()) && 
+				"x".equalsIgnoreCase(vectorData.getTechSector()) ? "1" : "0");
 		visualDocSheetMap.put("situation_description", vectorData.getSituationDescription());
-		visualDocSheetMap.put("technical_scope", vectorData.getTechnicalScope());
 		
 		return visualDocSheetMap;
 	}

@@ -149,5 +149,17 @@ public class GenericHelper {
 			return false;
 		}
 	}
+	
+	/**
+	 * 
+	 * @return the absolute path for files on the server
+	 */
+	public static String getAbsolutePath(){
+		if(isWindows()){
+			return IGenericConstants.WIN_PATH_FOR_GENERATED;
+		} else {
+			return IGenericConstants.LINUX_PATH_FOR_GENERATED;
+		}
+	}
 
 }

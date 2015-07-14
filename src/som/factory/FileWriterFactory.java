@@ -13,6 +13,7 @@ import som.file.DWMFileWriter;
 import som.file.IFileWritable;
 import som.file.InputVectorFileWriter;
 import som.file.SemanticOutputFileWriter;
+import som.file.StemmedDataFileReader;
 import som.file.TemplateVectorFileWriter;
 import som.file.UnitVectorFileWriter;
 import som.file.WeightVectorFileWriter;
@@ -32,6 +33,8 @@ import static som.constants.IFileFactoryConstants.BEST_WORDS_TEMPLATE_VECTOR_FIL
 import static som.constants.IFileFactoryConstants.VISUAL_DATA_JSON_FILE_WRITER;
 import static som.constants.IFileFactoryConstants.DWM_FILE_READER;
 import static som.constants.IFileFactoryConstants.BEST_WORDS_FILE_GENERATOR;
+import static som.constants.IFileFactoryConstants.STEMMED_DATA_FILE_READER;
+
 
 public class FileWriterFactory {
 
@@ -71,6 +74,9 @@ public class FileWriterFactory {
 		}
 		else if(BEST_WORDS_FILE_GENERATOR.equalsIgnoreCase(fileType)){
 			return new BestWordsFileGenerator();
+		}
+		else if(STEMMED_DATA_FILE_READER.equalsIgnoreCase(fileType)){
+			return new StemmedDataFileReader();
 		}
 		else return null;
 		
