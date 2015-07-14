@@ -9,7 +9,10 @@ import static som.constants.IGenericConstants.bestWordsList;
 
 
 
+
 import java.io.PrintWriter;
+
+import som.helper.GenericHelper;
 
 /**
  * @author prashant
@@ -23,7 +26,7 @@ public class BestWordsTemplateVectorWriter implements IFileWritable{
 	public void writeToFile() {
 		
 		try{
-			PrintWriter writer = new PrintWriter("MySOM.tv", "UTF-8");
+			PrintWriter writer = new PrintWriter(GenericHelper.getAbsolutePath()+"MySOM.tv", "UTF-8");
 			writer.println("$TYPE template");
 			writer.println("$XDIM 2");
 			

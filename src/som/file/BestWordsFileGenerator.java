@@ -34,7 +34,7 @@ public class BestWordsFileGenerator implements IFileWritable{
 	public void createVectorDimensionAndWriteIntoFile(List<String[]> wordList){
 		PrintWriter pw = null;
 		try{
-			pw = new PrintWriter(IBestWordsFileConstants.fileName);
+			pw = new PrintWriter(GenericHelper.getAbsolutePath()+IBestWordsFileConstants.fileName);
 			for(String[]words : wordList){
 				pw.println(words[0]+","+words[1]);
 			}

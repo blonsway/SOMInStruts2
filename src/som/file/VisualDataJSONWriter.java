@@ -5,6 +5,8 @@ import java.io.PrintWriter;
 
 
 
+
+import som.helper.GenericHelper;
 //static import
 import static som.constants.IVisualizationConstants.VISUAL_JSON_JS_FILE;
 import static som.constants.IVisualizationConstants.bmuCoordinatesJSONArray;
@@ -16,7 +18,7 @@ public class VisualDataJSONWriter implements IFileWritable {
 	public void writeToFile() {
 		// TODO Auto-generated method stub
 		try{
-			PrintWriter pw = new PrintWriter(new FileOutputStream(VISUAL_JSON_JS_FILE,false));
+			PrintWriter pw = new PrintWriter(new FileOutputStream(GenericHelper.getAbsolutePath()+VISUAL_JSON_JS_FILE,false));
 			pw.print("var jsonCircles  = "+bmuCoordinatesJSONArray+";");
 			pw.close();
 		}

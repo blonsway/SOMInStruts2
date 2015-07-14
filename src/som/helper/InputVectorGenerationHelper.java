@@ -343,7 +343,7 @@ public class InputVectorGenerationHelper {
 		try{
 			if(firstOption != 1){
 				System.out.println(" Generating Vectors. Time consuming Process. Please wait ...");
-				writer = new PrintWriter("MySOM.tfxidf", "UTF-8");
+				writer = new PrintWriter(GenericHelper.getAbsolutePath()+"MySOM.tfxidf", "UTF-8");
 				writer.println("$TYPE vec_tfxidf");
 				writer.println("$XDIM "+getDocCount(vectorDataList));
 				writer.println("$YDIM 1");

@@ -94,7 +94,7 @@ public class StemmedDataFileReader implements IFileWritable{
 			file.close();		     
 
 			System.out.println("Writing to the file on the server");
-			FileOutputStream outFile =new FileOutputStream(new File("C:\\apache-tomcat-7.0.62\\webapps\\SOMInStruts2\\"+
+			FileOutputStream outFile =new FileOutputStream(new File(GenericHelper.getAbsolutePath()+
 					REVISED_INPUT_SHEET_NAME));
 			workbook.write(outFile);
 			System.out.println("File Writing Complete");

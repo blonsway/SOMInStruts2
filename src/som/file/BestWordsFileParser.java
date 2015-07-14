@@ -7,6 +7,7 @@
 package som.file;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 
 
@@ -34,7 +35,7 @@ public class BestWordsFileParser implements IFileWritable{
 		String currentLine = null;
 		BufferedReader br = null;
 		try{
-			br = new BufferedReader(new InputStreamReader(GenericHelper.getFileFromServerUsingUrl(fileName)));
+			br = new BufferedReader(new FileReader(new File(GenericHelper.getAbsolutePath()+fileName)));
 			while((currentLine = br.readLine()) != null){
 				currentLine = currentLine.trim();
 				//if(!bestWordsList.contains(currentLine)){

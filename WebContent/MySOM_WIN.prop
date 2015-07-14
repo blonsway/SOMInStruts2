@@ -4,7 +4,7 @@
 #
 #Wed Dec 24 02:19:49 EST 2014
 namePrefix=MySOM
-vectorFileName=/var/lib/tomcat7/webapps/generated/MySOM.tfxidf
+vectorFileName=C:\\apache-tomcat-7.0.62\\webapps\\generated\\MySOM.tfxidf
 learnrate=0.7
 outputDirectory=.\\output
 tau=1.0
@@ -14,5 +14,5 @@ isNormalized=no
 numIterations=1500
 randomSeed=7
 ySize=10
-templateFileName=/var/lib/tomcat7/webapps/generated/MySOM.tv
+templateFileName=C:\\apache-tomcat-7.0.62\\webapps\\generated\\MySOM.tv
 xSize=10
