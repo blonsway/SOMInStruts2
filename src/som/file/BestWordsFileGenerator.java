@@ -2,11 +2,13 @@ package som.file;
 
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 
@@ -74,7 +76,7 @@ public class BestWordsFileGenerator implements IFileWritable{
 		List<String[]> wordList = new ArrayList<String[]>();
 		try{ 
 			// TODO Auto-generated method stub
-			br = new BufferedReader(new InputStreamReader(GenericHelper.getFileFromServerUsingUrl(fileName)));
+			br = new BufferedReader(new FileReader(new File(GenericHelper.getAbsolutePath()+fileName)));
 			while ((line = br.readLine()) != null) {
 				// use comma as separator
 				String[] words = line.split(",");

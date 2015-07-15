@@ -20,6 +20,7 @@ import java.util.Set;
 
 
 
+
 //static import
 import static som.constants.IGenericConstants.inputValuesMap;
 import static som.constants.IGenericConstants.wordDictionary;
@@ -31,19 +32,19 @@ import static som.constants.IGenericConstants.trimmedCharactersRegex;
 import static som.constants.IGenericConstants.stemmendBestWordFileOptionForSituationDescription;
 import static som.constants.IGenericConstants.templateVectorFileCreationOption;
 import static som.constants.IGenericConstants.blParserFileOption;
-import static som.constants.IBestWordsFileConstants.CSV_WITH_SITUATION_DESC;
-import static som.constants.IBestWordsFileConstants.CSV_WITH_SITUATION_DESC_MISSION_TEXT;
+import static som.constants.IBestWordsFileConstants.BEST_WORDS_CSV;
 import static som.constants.IFileFactoryConstants.TEMPLATE_VECTOR_FILE;
 import static som.constants.IFileFactoryConstants.BEST_WORDS_FILE;
 import static som.constants.IFileFactoryConstants.BEST_WORDS_TEMPLATE_VECTOR_FILE;
 import static som.constants.IFileFactoryConstants.BEST_WORDS_FILE_GENERATOR;
 import static som.constants.IFileFactoryConstants.CUSTOM_SOM_PARSER_UNIT_OUTPUT_FILE;
 import static som.constants.IFileFactoryConstants.STEMMED_DATA_FILE_READER;
-
+import static som.constants.IFileFactoryConstants.FULLY_REDACTED_FILE_PARSER;
 
 
 
 import som.adapter.FileOperationsAdapter;
+import som.adapter.PythonAdapter;
 import som.beans.VectorData;
 import som.constants.ICommandLineConstants;
 import som.constants.IGenericConstants;
@@ -446,13 +447,7 @@ public class InputVectorGenerationHelper {
 	 */
 	public static void doPreliminaryTaskForStemmedInput(int secondOption, FileOperationsAdapter fileOperAdapter){
 		if(GenericHelper.isStemmedBestWordsSelected(secondOption)){
-
-			if(secondOption == stemmendBestWordFileOptionForSituationDescription){
-				fileOperAdapter.readFromFile(BEST_WORDS_FILE_GENERATOR,CSV_WITH_SITUATION_DESC );
-			}
-			else{
-				fileOperAdapter.readFromFile(BEST_WORDS_FILE_GENERATOR,CSV_WITH_SITUATION_DESC_MISSION_TEXT );
-			}
+			fileOperAdapter.readFromFile(BEST_WORDS_FILE_GENERATOR,BEST_WORDS_CSV);			
 		}
 	}
 
@@ -476,6 +471,12 @@ public class InputVectorGenerationHelper {
 				System.out.println("Reading into Stemmed Data and writing into Input File");
 				fileOperAdapter.readFromFile(STEMMED_DATA_FILE_READER,IGenericConstants.STEMMED_FILE);
 			}
+			
+			//logic of copying data from FullyRedactedDocs into Input sheet
+			fileOperAdapter.readFromFile(FULLY_REDACTED_FILE_PARSER, IGenericConstants.FULLY_REDACTED_FILE_NAME);
+			
+			//logic of running the python code
+			new PythonAdapter().exceutePythonScripts(ICommandLineConstants.RUN_PYTHON_COMMAND_LINUX);
 			
 			//prints the Best Words Vector file
 			fileOperAdapter.readFromFile(BEST_WORDS_FILE);

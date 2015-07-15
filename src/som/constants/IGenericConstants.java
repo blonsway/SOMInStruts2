@@ -103,8 +103,10 @@ public interface IGenericConstants {
 	String WIN_PATH_FOR_GENERATED = "C:\\apache-tomcat-7.0.62\\webapps\\generated\\";
 	
 	//linux path for generated files
-	String LINUX_PATH_FOR_GENERATED = "/var/lib/tomcat7/webapps/generated/";
+	String LINUX_PATH_FOR_GENERATED = "/var/lib/tomcat7/webapps/ROOT/generated/";
 
+	//fully Redacted File Mapper
+	String FULLY_REDACTED_FILE_NAME =  "fullyRedactedDocs.csv";
 
 
 	// list of case 1

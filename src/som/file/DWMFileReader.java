@@ -79,7 +79,7 @@ public class DWMFileReader implements IFileWritable {
 	public void readFromFile() {
 		// TODO Auto-generated method stub
 		try{
-			InputStreamReader isr = new InputStreamReader(GenericHelper.getFileFromServerUsingUrl(VISUAL_FILE_NAME));
+			FileReader isr = new FileReader(new File(GenericHelper.getAbsolutePath()+(VISUAL_FILE_NAME)));
 			BufferedReader br = new BufferedReader(isr);
 			storeDocumentsDistanceInfo(br);
 			

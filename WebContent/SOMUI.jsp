@@ -50,8 +50,8 @@
 		</style>
 
 			<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-			<script src="visualJsonData.js" charset="utf-8"></script>
-			<script src="visualJsonLines.js" charset="utf-8"></script>		
+			<script src="/var/lib/tomcat7/webapps/ROOT/generated/visualJsonData.js" charset="utf-8"></script>
+			<script src="/var/lib/tomcat7/webapps/ROOT/generated/visualJsonLines.js" charset="utf-8"></script>		
 	</head>
 
 	<body>
