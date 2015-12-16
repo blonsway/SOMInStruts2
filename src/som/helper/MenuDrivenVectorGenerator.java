@@ -1,8 +1,52 @@
-/**
+/*
+ *  
+ *	Tech For Good Portal 
+ *	Proof of Concept
+ *	J P Morgan Chase Technology Center at Syracuse University
  * 
- * Helper class for Menu Drive utility
+ *	Authored by: 
+ *	Last Revision: 1.0
+ *	Last Revised by: Prashant Patel
+ *
+ *	Version 1.0
+ *
+ *  	Principal Investigators
+ *		Kathleen Brandt
+ *		Brian Lonsway
+ *		Steve Masiclat
+ *
+ * 	Contributors
+ *		Lead Java Developer & Research Assistant: Prashant Patel
+ *		Java Developer & Research Assistant: Ravi Nagendra
+ *		Python Developer: Brian Lonsway
+ * 
+ *	This document is a part of the source code and related artifacts
+ * 	for the Tech For Good Portal, an open source proof of concept developed
+ *	for J P Morgan Chase.
+ *
+ * 	Copyright © 2015, jointly held by 
+ *		Kathleen Brandt, Brian Lonsway, and Steve Masiclat; 
+ *		Syracuse University; and
+ *		J P Morgan Chase.
+ *
+ *   	This file is part of TechForGoodPortal.
+ *
+ *    	TechForGoodPortal is free software: you can redistribute it and/or modify
+ *    	it under the terms of the GNU General Public License version 3 as published by
+ *    	the Free Software Foundation.
+ *
+ *    	TechForGoodPortal is distributed in the hope that it will be useful,
+ *    	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    	GNU General Public License for more details.
+ *
+ *    	See <http://www.gnu.org/licenses/> for a copy of the GNU General Public License.
+ *    	
+ *
+ * 		Helper class for Menu Driven utility
  * 
  */
+
 
 package som.helper;
 
@@ -11,11 +55,11 @@ package som.helper;
 
 import static som.constants.IFileFactoryConstants.DWM_FILE_READER;
 import static som.constants.IFileFactoryConstants.VISUAL_DATA_JSON_FILE_WRITER;
-import static som.constants.IGenericConstants.inputValuesMap;
-import static som.constants.IGenericConstants.maxNoOfOptions;
-import static som.constants.IGenericConstants.customColumnOption;
-import static som.constants.IGenericConstants.visualOption;
-import static som.constants.IGenericConstants.excelSheetMapperListCaseCustom;
+import static som.constants.IGenericConstants.INPUT_VALUES_MAP;
+import static som.constants.IGenericConstants.MAX_NO_OF_OPTIONS;
+import static som.constants.IGenericConstants.CUSTOM_COLUMN_OPTION;
+import static som.constants.IGenericConstants.VISUAL_OPTION;
+import static som.constants.IGenericConstants.EXCEL_SHEET_MAPPER_CASE_CUSTOM;
 
 
 
@@ -40,6 +84,7 @@ import som.beans.VectorData;
 import som.visualization.DocumentPositionCalculator;
 
 public class MenuDrivenVectorGenerator extends ActionSupport{
+	private static final long serialVersionUID = 1L;
 
 	private static void displaySecondMenu(){
 		System.out.println("Enter 1 to train SOM by  vectors of organization name, "
@@ -58,8 +103,6 @@ public class MenuDrivenVectorGenerator extends ActionSupport{
 		System.out.println("Enter 9 to train SOM by best stemmed words Provided for Situation Description");
 		System.out.println("Enter 10 to train SOM by best stemmed words Provided for Situation Description"
 				+ "and Mission Statement");
-
-
 	}
 
 	private static void displayFirstMenu(){
@@ -112,11 +155,14 @@ public class MenuDrivenVectorGenerator extends ActionSupport{
 	 * @param input
 	 */
 	public static void createInputVectorsBasedOnOption(int firstOption, int secondOption , List<String> columnList){
-		if(secondOption > maxNoOfOptions || secondOption < 0){
+		if(secondOption > MAX_NO_OF_OPTIONS || secondOption < 0){
 			System.out.println("Option not present in the list");		
 		}
 		else{
-			InputVectorGenerationHelper.createInputVectors(inputValuesMap, firstOption,secondOption, columnList);
+			if(INPUT_VALUES_MAP.size() > 0){
+				INPUT_VALUES_MAP.clear();
+			}
+			InputVectorGenerationHelper.createInputVectors(INPUT_VALUES_MAP, firstOption,secondOption, columnList);
 		}
 	}
 
@@ -128,7 +174,7 @@ public class MenuDrivenVectorGenerator extends ActionSupport{
 	 */
 	public static void handleCustomCoulumnInput(int  inputForSecondMenu){
 		try{
-			if(inputForSecondMenu == customColumnOption){
+			if(inputForSecondMenu == CUSTOM_COLUMN_OPTION){
 				System.out.println(" Enter Comma Separated Columns : ");
 				String customColumnInputString = getStringInput();
 				String[] customColumns = customColumnInputString.split(",");
@@ -136,7 +182,7 @@ public class MenuDrivenVectorGenerator extends ActionSupport{
 				for(String s : customColumns){
 					if(s != null && s != ""){
 						Byte columnNo = Byte.parseByte(s);
-						excelSheetMapperListCaseCustom.add(columnNo);
+						EXCEL_SHEET_MAPPER_CASE_CUSTOM.add(columnNo);
 					}
 				}
 			}
@@ -156,7 +202,7 @@ public class MenuDrivenVectorGenerator extends ActionSupport{
 		int inputForFirstMenu = getIntegerInput();
 		int inputForSecondMenu = -1;
 
-		if(inputForFirstMenu != visualOption){
+		if(inputForFirstMenu != VISUAL_OPTION){
 			displaySecondMenu();
 			inputForSecondMenu = getIntegerInput();
 
@@ -180,7 +226,7 @@ public class MenuDrivenVectorGenerator extends ActionSupport{
 	 */
 	public static String createInputVectorFilesForStruts2(Map<Integer, VectorData> inputValuesMap,int inputForFirstMenu,
 			int inputForSecondMenu, List<String> columnList){
-		if(inputForFirstMenu != visualOption){
+		if(inputForFirstMenu != VISUAL_OPTION){
 			
 			handleCustomCoulumnInput(inputForSecondMenu);
 

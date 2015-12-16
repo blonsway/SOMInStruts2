@@ -1,9 +1,54 @@
-/**
+/*
+ *  
+ *	Tech For Good Portal 
+ *	Proof of Concept
+ *	J P Morgan Chase Technology Center at Syracuse University
  * 
+ *	Authored by: 
+ *	Last Revision: 1.0
+ *	Last Revised by: Prashant Patel
+ *
+ *	Version 1.0
+ *
+ *  	Principal Investigators
+ *		Kathleen Brandt
+ *		Brian Lonsway
+ *		Steve Masiclat
+ *
+ * 	Contributors
+ *		Lead Java Developer & Research Assistant: Prashant Patel
+ *		Java Developer & Research Assistant: Ravi Nagendra
+ *		Python Developer: Brian Lonsway
+ * 
+ *	This document is a part of the source code and related artifacts
+ * 	for the Tech For Good Portal, an open source proof of concept developed
+ *	for J P Morgan Chase.
+ *
+ * 	Copyright © 2015, jointly held by 
+ *		Kathleen Brandt, Brian Lonsway, and Steve Masiclat; 
+ *		Syracuse University; and
+ *		J P Morgan Chase.
+ *
+ *   	This file is part of TechForGoodPortal.
+ *
+ *    	TechForGoodPortal is free software: you can redistribute it and/or modify
+ *    	it under the terms of the GNU General Public License version 3 as published by
+ *    	the Free Software Foundation.
+ *
+ *    	TechForGoodPortal is distributed in the hope that it will be useful,
+ *    	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    	GNU General Public License for more details.
+ *
+ *    	See <http://www.gnu.org/licenses/> for a copy of the GNU General Public License.
+ *    	
+ *
  * reads bl_out.unit file, parses it and store it in semantic manner in 
  *  bl_parser_out.unit manner
  * 
  */
+
+
 
 package som.file;
 
@@ -17,7 +62,7 @@ import java.util.List;
 
 import som.beans.VectorData;
 //static import in java. Java is awesome
-import static som.constants.IGenericConstants.inputValuesMap;
+import static som.constants.IGenericConstants.INPUT_VALUES_MAP;
 
 
 public class BLOutputFileParser implements IFileWritable{
@@ -59,7 +104,7 @@ public class BLOutputFileParser implements IFileWritable{
 		for(int i = 0 ; i < documentNumberList.size() ; i++){
 			int docNo = documentNumberList.get(i);
 			Double distance = documentDistanceList.get(i);
-			VectorData vectorData = inputValuesMap.get(docNo);
+			VectorData vectorData = INPUT_VALUES_MAP.get(docNo);
 			writer.println("Document_Number_"+docNo+ " (dist:"+distance+")");
 			if(vectorData != null){
 				writer.println(" Project Title: "+vectorData.getProjectTitleForBLParser());

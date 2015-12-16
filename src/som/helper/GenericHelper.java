@@ -1,45 +1,78 @@
-/**
+/*
+ *  
+ *	Tech For Good Portal 
+ *	Proof of Concept
+ *	J P Morgan Chase Technology Center at Syracuse University
  * 
- * Helper class containing utility method for computing  distance between the two vectors
+ *	Authored by: 
+ *	Last Revision: 1.0
+ *	Last Revised by: Prashant Patel
+ *
+ *	Version 1.0
+ *
+ *  	Principal Investigators
+ *		Kathleen Brandt
+ *		Brian Lonsway
+ *		Steve Masiclat
+ *
+ * 	Contributors
+ *		Lead Java Developer & Research Assistant: Prashant Patel
+ *		Java Developer & Research Assistant: Ravi Nagendra
+ *		Python Developer: Brian Lonsway
+ * 
+ *	This document is a part of the source code and related artifacts
+ * 	for the Tech For Good Portal, an open source proof of concept developed
+ *	for J P Morgan Chase.
+ *
+ * 	Copyright © 2015, jointly held by 
+ *		Kathleen Brandt, Brian Lonsway, and Steve Masiclat; 
+ *		Syracuse University; and
+ *		J P Morgan Chase.
+ *
+ *   	This file is part of TechForGoodPortal.
+ *
+ *    	TechForGoodPortal is free software: you can redistribute it and/or modify
+ *    	it under the terms of the GNU General Public License version 3 as published by
+ *    	the Free Software Foundation.
+ *
+ *    	TechForGoodPortal is distributed in the hope that it will be useful,
+ *    	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    	GNU General Public License for more details.
+ *
+ *    	See <http://www.gnu.org/licenses/> for a copy of the GNU General Public License.
+ *    	
+ *
+ * 		Helper class containing utility method for computing  distance between the two vectors
  * 
  */
+
+
 package som.helper;
 
-import static som.constants.IGenericConstants.bestWordFileOptionForSituationDescription;
-import static som.constants.IGenericConstants.bestWordFileOptionForSituationDescriptionAndMissionStatement;
-import static som.constants.IGenericConstants.stemmedBestWordFileOptionForSituationDescriptionAndMissionStatement;
-import static som.constants.IGenericConstants.stemmendBestWordFileOptionForSituationDescription;
-import static som.constants.IVisualizationConstants.MIN_DIMENSION;
-import static som.constants.IVisualizationConstants.MAX_DIMENSION;
-
-
-
-
-
-
-
-
-
-
-
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
-
 import som.beans.VectorCoordinate;
 import som.constants.IGenericConstants;
 
+//static import
+import static som.constants.IGenericConstants.BEST_WORDS_FILE_OPTION_FOR_SITUATION_DESCRIPTION;
+import static som.constants.IGenericConstants.BEST_WORDS_FILE_OPTION_FOR_SITUATION_DESCRIPTION_AND_MISSION_STATEMENT;
+import static som.constants.IGenericConstants.STEMMED_BEST_WORDS_FILE_FOR_SITUATION_DESCRIPTION_AND_MISSION_STATEMENT;
+import static som.constants.IGenericConstants.STEMMED_BEST_WORD_FILE_OPTION_FOR_SITUATION_DESCRIPTION;
+import static som.constants.IVisualizationConstants.MIN_DIMENSION;
+import static som.constants.IVisualizationConstants.MAX_DIMENSION;
+
 public class GenericHelper {
 
+	/**
+	 * 
+	 * @param coordinate1
+	 * @param coordinate2
+	 * @return the distance between two vectors using Euclidean distance formula
+	 */
 	public static double computeEuclideanDistanceForCoordinates(List<Integer> coordinate1, List<Integer> coordinate2)
 	{
 		double squareDistance = 0;
@@ -58,10 +91,10 @@ public class GenericHelper {
 	 * @return whether the menu selection matches the best words option
 	 */
 	public static boolean isBestWordsOptionSelected(int secondOption){
-		return secondOption == bestWordFileOptionForSituationDescription ||
-				secondOption == bestWordFileOptionForSituationDescriptionAndMissionStatement ||
-				secondOption == stemmendBestWordFileOptionForSituationDescription ||
-				secondOption == stemmedBestWordFileOptionForSituationDescriptionAndMissionStatement;
+		return secondOption == BEST_WORDS_FILE_OPTION_FOR_SITUATION_DESCRIPTION ||
+				secondOption == BEST_WORDS_FILE_OPTION_FOR_SITUATION_DESCRIPTION_AND_MISSION_STATEMENT ||
+				secondOption == STEMMED_BEST_WORD_FILE_OPTION_FOR_SITUATION_DESCRIPTION ||
+				secondOption == STEMMED_BEST_WORDS_FILE_FOR_SITUATION_DESCRIPTION_AND_MISSION_STATEMENT;
 	}
 
 	/**
@@ -70,8 +103,8 @@ public class GenericHelper {
 	 * @return whether the menu selection matches the stemmed best words option
 	 */
 	public static boolean isStemmedBestWordsSelected(int secondOption){
-		return secondOption == stemmendBestWordFileOptionForSituationDescription ||
-				secondOption == stemmedBestWordFileOptionForSituationDescriptionAndMissionStatement;
+		return secondOption == STEMMED_BEST_WORD_FILE_OPTION_FOR_SITUATION_DESCRIPTION ||
+				secondOption == STEMMED_BEST_WORDS_FILE_FOR_SITUATION_DESCRIPTION_AND_MISSION_STATEMENT;
 	}
 
 	/**

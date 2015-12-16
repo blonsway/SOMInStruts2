@@ -1,8 +1,53 @@
-/**
+/*
+ *  
+ *	Tech For Good Portal 
+ *	Proof of Concept
+ *	J P Morgan Chase Technology Center at Syracuse University
  * 
- * Creates Weight Vector Files
+ *	Authored by: 
+ *	Last Revision: 1.0
+ *	Last Revised by: Prashant Patel
+ *
+ *	Version 1.0
+ *
+ *  	Principal Investigators
+ *		Kathleen Brandt
+ *		Brian Lonsway
+ *		Steve Masiclat
+ *
+ * 	Contributors
+ *		Lead Java Developer & Research Assistant: Prashant Patel
+ *		Java Developer & Research Assistant: Ravi Nagendra
+ *		Python Developer: Brian Lonsway
+ * 
+ *	This document is a part of the source code and related artifacts
+ * 	for the Tech For Good Portal, an open source proof of concept developed
+ *	for J P Morgan Chase.
+ *
+ * 	Copyright © 2015, jointly held by 
+ *		Kathleen Brandt, Brian Lonsway, and Steve Masiclat; 
+ *		Syracuse University; and
+ *		J P Morgan Chase.
+ *
+ *   	This file is part of TechForGoodPortal.
+ *
+ *    	TechForGoodPortal is free software: you can redistribute it and/or modify
+ *    	it under the terms of the GNU General Public License version 3 as published by
+ *    	the Free Software Foundation.
+ *
+ *    	TechForGoodPortal is distributed in the hope that it will be useful,
+ *    	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    	GNU General Public License for more details.
+ *
+ *    	See <http://www.gnu.org/licenses/> for a copy of the GNU General Public License.
+ *    	
+ *
+ * 		Creates Weight Vector file
  * 
  */
+
+
 package som.file;
 
 import java.io.PrintWriter;
@@ -21,16 +66,16 @@ public class WeightVectorFileWriter implements IFileWritable{
 			writer.println("$TYPE som");
 			writer.println("$GRID_LAYOUT rectangular");
 			writer.println("$GRID_TOPOLOGY planar");
-			writer.println("$XDIM "+IMatrixConstants.somMatrixRowSize);
-			writer.println("$YDIM "+IMatrixConstants.somMatrixColumnSize);
+			writer.println("$XDIM "+IMatrixConstants.SOM_MATRIX_ROW_SIZE);
+			writer.println("$YDIM "+IMatrixConstants.SOM_MATRIX_COLUMN_SIZE);
 			writer.println("$ZDIM 1");
 			writer.println("$VEC_DIM "+VectorHelper.getVectorDimension());
-			for (int i = 0; i <IMatrixConstants.somMatrixRowSize; i++)
+			for (int i = 0; i <IMatrixConstants.SOM_MATRIX_ROW_SIZE; i++)
 			{
-				for (int j = 0; j <IMatrixConstants.somMatrixColumnSize; j++)
+				for (int j = 0; j <IMatrixConstants.SOM_MATRIX_COLUMN_SIZE; j++)
 				{
-					int position =IMatrixConstants.somMatrix[i][j];
-					List<Integer>vector =IMatrixConstants.randomSOMVectorMap.get(position);
+					int position =IMatrixConstants.SOM_MATRIX[i][j];
+					List<Integer>vector =IMatrixConstants.RANDOM_SOM_VECTOR_MAP.get(position);
 					for(Integer distance : vector){
 						writer.print(distance+" ");
 					}

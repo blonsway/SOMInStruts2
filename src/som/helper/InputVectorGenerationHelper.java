@@ -1,7 +1,53 @@
-/**
+/*
+ *  
+ *	Tech For Good Portal 
+ *	Proof of Concept
+ *	J P Morgan Chase Technology Center at Syracuse University
  * 
- * Class containing important utlity methods to generate input vectors data and also to 
- * generate Input Vector files, Template Vector Files and Semantic Parser File
+ *	Authored by: 
+ *	Last Revision: 1.0
+ *	Last Revised by: Prashant Patel
+ *
+ *	Version 1.0
+ *
+ *  	Principal Investigators
+ *		Kathleen Brandt
+ *		Brian Lonsway
+ *		Steve Masiclat
+ *
+ * 	Contributors
+ *		Lead Java Developer & Research Assistant: Prashant Patel
+ *		Java Developer & Research Assistant: Ravi Nagendra
+ *		Python Developer: Brian Lonsway
+ * 
+ *	This document is a part of the source code and related artifacts
+ * 	for the Tech For Good Portal, an open source proof of concept developed
+ *	for J P Morgan Chase.
+ *
+ * 	Copyright © 2015, jointly held by 
+ *		Kathleen Brandt, Brian Lonsway, and Steve Masiclat; 
+ *		Syracuse University; and
+ *		J P Morgan Chase.
+ *
+ *   	This file is part of TechForGoodPortal.
+ *
+ *    	TechForGoodPortal is free software: you can redistribute it and/or modify
+ *    	it under the terms of the GNU General Public License version 3 as published by
+ *    	the Free Software Foundation.
+ *
+ *    	TechForGoodPortal is distributed in the hope that it will be useful,
+ *    	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    	GNU General Public License for more details.
+ *
+ *    	See <http://www.gnu.org/licenses/> for a copy of the GNU General Public License.
+ *    	
+ *
+ * 		Class containing important utlity methods to generate input vectors data and also to 
+ * 		generate Input Vector files, Template Vector Files and Semantic Parser File.
+ * 
+ * 		Also plays the role of Facade by calling the Python scripts executor API, stemmed File copy
+ * 		code and best words file parser code to create input vectors.
  * 
  */
 
@@ -16,22 +62,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
-
-
-
+import som.adapter.FileOperationsAdapter;
+import som.adapter.PythonAdapter;
+import som.adapter.SOMToolboxAdapter;
+import som.beans.VectorData;
+import som.constants.ICommandLineConstants;
+import som.constants.IGenericConstants;
 
 //static import
-import static som.constants.IGenericConstants.inputValuesMap;
-import static som.constants.IGenericConstants.wordDictionary;
-import static som.constants.IGenericConstants.templateVectorCounterMap;
-import static som.constants.IGenericConstants.uniqueWordsList;
-import static som.constants.IGenericConstants.bestWordsList;
-import static som.constants.IGenericConstants.neglectedWordList;
-import static som.constants.IGenericConstants.trimmedCharactersRegex;
-import static som.constants.IGenericConstants.stemmendBestWordFileOptionForSituationDescription;
-import static som.constants.IGenericConstants.templateVectorFileCreationOption;
-import static som.constants.IGenericConstants.blParserFileOption;
+import static som.constants.IGenericConstants.INPUT_VALUES_MAP;
+import static som.constants.IGenericConstants.WORD_DICTIONARY;
+import static som.constants.IGenericConstants.TEMPLATE_VECTOR_COUNTER_MAP;
+import static som.constants.IGenericConstants.UNIQUE_WORD_LIST;
+import static som.constants.IGenericConstants.BEST_WORDS_LIST;
+import static som.constants.IGenericConstants.NEGLECTED_WORDS_LIST;
+import static som.constants.IGenericConstants.TRIMMED_CHARACTERS_REGEX;
+import static som.constants.IGenericConstants.TEMPLATE_VECTOR_FILE_CREATION_OPTION;
+import static som.constants.IGenericConstants.BL_PARSER_FILE_OPTION;
 import static som.constants.IBestWordsFileConstants.BEST_WORDS_CSV;
 import static som.constants.IFileFactoryConstants.TEMPLATE_VECTOR_FILE;
 import static som.constants.IFileFactoryConstants.BEST_WORDS_FILE;
@@ -40,14 +87,6 @@ import static som.constants.IFileFactoryConstants.BEST_WORDS_FILE_GENERATOR;
 import static som.constants.IFileFactoryConstants.CUSTOM_SOM_PARSER_UNIT_OUTPUT_FILE;
 import static som.constants.IFileFactoryConstants.STEMMED_DATA_FILE_READER;
 import static som.constants.IFileFactoryConstants.FULLY_REDACTED_FILE_PARSER;
-
-
-
-import som.adapter.FileOperationsAdapter;
-import som.adapter.PythonAdapter;
-import som.beans.VectorData;
-import som.constants.ICommandLineConstants;
-import som.constants.IGenericConstants;
 
 public class InputVectorGenerationHelper {
 
@@ -65,11 +104,11 @@ public class InputVectorGenerationHelper {
 		for(String word : items){
 			//doing two way mapping since  it can be extracted both ways.
 			//wordDictionary.put(index+"", word);
-			if(!neglectedWordList.contains(word) && word.length() > 1){
+			if(!NEGLECTED_WORDS_LIST.contains(word) && word.length() > 1){
 				word = removeCharactersToBeTrimmed(word);
-				wordDictionary.put(word, index+"");
-				if(!uniqueWordsList.contains(word)){
-					uniqueWordsList.add(word);
+				WORD_DICTIONARY.put(word, index+"");
+				if(!UNIQUE_WORD_LIST.contains(word)){
+					UNIQUE_WORD_LIST.add(word);
 				}
 				index++;
 			}
@@ -77,8 +116,13 @@ public class InputVectorGenerationHelper {
 		}
 	}
 
+	/**
+	 * removing the characters to be trimmed
+	 * @param word
+	 * @return
+	 */
 	private static String removeCharactersToBeTrimmed(String word){			
-		return word.replaceAll(trimmedCharactersRegex,"");		
+		return word.replaceAll(TRIMMED_CHARACTERS_REGEX,"");		
 	}
 
 	/**
@@ -106,17 +150,17 @@ public class InputVectorGenerationHelper {
 
 			}
 
-			Integer templateVectorTf = templateVectorCounterMap.get(key);
+			Integer templateVectorTf = TEMPLATE_VECTOR_COUNTER_MAP.get(key);
 			if( vectorTf != null ){
 
-				templateVectorCounterMap.put(key, ++templateVectorTf);
-				templateVectorCounterMap.put(keyReverse, templateVectorTf);
+				TEMPLATE_VECTOR_COUNTER_MAP.put(key, ++templateVectorTf);
+				TEMPLATE_VECTOR_COUNTER_MAP.put(keyReverse, templateVectorTf);
 
 			}
 			else{
 
-				templateVectorCounterMap.put(key, 1);
-				templateVectorCounterMap.put(keyReverse,1);
+				TEMPLATE_VECTOR_COUNTER_MAP.put(key, 1);
+				TEMPLATE_VECTOR_COUNTER_MAP.put(keyReverse,1);
 			}
 
 		}
@@ -224,7 +268,7 @@ public class InputVectorGenerationHelper {
 	public static List<String> removeUnusedWordsNTrimWords(String[] wordsVectorArray){
 		List<String> refinedInputWords = new ArrayList<String>();
 		for(int i = 0 ; i < wordsVectorArray.length ; i++){
-			if(!neglectedWordList.contains(wordsVectorArray[i]) ){
+			if(!NEGLECTED_WORDS_LIST.contains(wordsVectorArray[i]) ){
 				wordsVectorArray[i] = removeCharactersToBeTrimmed(wordsVectorArray[i]);
 				if(wordsVectorArray[i] != null && wordsVectorArray[i] !="")
 					refinedInputWords.add(wordsVectorArray[i]);
@@ -251,7 +295,7 @@ public class InputVectorGenerationHelper {
 				writer.println("$TYPE vec_tfxidf");
 				writer.println("$XDIM "+getDocCount(vectorDataList));
 				writer.println("$YDIM 1");
-				writer.println("$VEC_DIM "+ (uniqueWordsList.size()*uniqueWordsList.size()));
+				writer.println("$VEC_DIM "+ (UNIQUE_WORD_LIST.size()*UNIQUE_WORD_LIST.size()));
 			}
 
 
@@ -282,16 +326,16 @@ public class InputVectorGenerationHelper {
 
 
 						if(prev!=null && prev != "" && cur!=null && cur != "" ){
-							String iIndex = wordDictionary.get(prev);
-							String jIndex = wordDictionary.get(cur);
+							String iIndex = WORD_DICTIONARY.get(prev);
+							String jIndex = WORD_DICTIONARY.get(cur);
 							//System.out.println("Prev = "+prev+" iIndex="+iIndex+" , cur = "+cur+"  jIndex = "+jIndex);
 
 							setVectorMapData(iIndex, jIndex, vectorDataMap);
 
 						}
 						if(next!=null && next != "" &&  cur!=null && cur != "" ){
-							String iIndex = wordDictionary.get(cur);
-							String jIndex = wordDictionary.get(next);
+							String iIndex = WORD_DICTIONARY.get(cur);
+							String jIndex = WORD_DICTIONARY.get(next);
 							//System.out.println("Cur = "+cur+" iIndex="+iIndex+" , Next = "+next+"  jIndex = "+jIndex);
 
 							setVectorMapData(iIndex, jIndex, vectorDataMap);
@@ -304,16 +348,16 @@ public class InputVectorGenerationHelper {
 					//now we will browse like a map but will take matrix values from hashmap in O(1) time
 					//List<Integer> vector = getVectorFromVectorDataMap(vectorDataMap, wordDictionary.size());
 					//now we will browse like a map but will take matrix values from hashmap in O(1) time
-					List<Integer> vector = getVectorFromVectorDataMap(vectorDataMap, wordDictionary.size());
+					List<Integer> vector = getVectorFromVectorDataMap(vectorDataMap, WORD_DICTIONARY.size());
 					vectorData.setVector(vector);
 					//StringBuffer vectorStringBuffer = 
 					if(firstOption != 1){
-						storeVectorStringFromVectorDataMap(vectorData,vectorDataMap, wordDictionary.size(), i,writer);
+						storeVectorStringFromVectorDataMap(vectorData,vectorDataMap, WORD_DICTIONARY.size(), i,writer);
 					}
 					//vectorData.setVectorString(vectorStringBuffer);
 					//System.out.println("The vector is "+vector);
 
-					inputValuesMap.put(dataCount++, vectorData);
+					INPUT_VALUES_MAP.put(dataCount++, vectorData);
 
 				}
 
@@ -348,7 +392,7 @@ public class InputVectorGenerationHelper {
 				writer.println("$TYPE vec_tfxidf");
 				writer.println("$XDIM "+getDocCount(vectorDataList));
 				writer.println("$YDIM 1");
-				writer.println("$VEC_DIM "+ (bestWordsList.size()));
+				writer.println("$VEC_DIM "+ (BEST_WORDS_LIST.size()));
 			}
 
 			int dataCount = 0;
@@ -362,7 +406,7 @@ public class InputVectorGenerationHelper {
 				String[] vectorStringArray = vectorString.split("\\s+");
 
 				//input vectors in array form for best words file
-				int[] vector = new int[bestWordsList.size()];
+				int[] vector = new int[BEST_WORDS_LIST.size()];
 
 				//input vectors in List form for best words file
 				List<Integer> vectorList = new ArrayList<Integer>();
@@ -384,10 +428,10 @@ public class InputVectorGenerationHelper {
 						String coOccurence = cur+","+next;
 						String coOccurenceReverse = next+","+cur;
 
-						if(bestWordsList.contains(coOccurence) || bestWordsList.contains(coOccurenceReverse)){
-							int index = bestWordsList.indexOf(coOccurence);
+						if(BEST_WORDS_LIST.contains(coOccurence) || BEST_WORDS_LIST.contains(coOccurenceReverse)){
+							int index = BEST_WORDS_LIST.indexOf(coOccurence);
 							if(index == -1 ){
-								index = bestWordsList.indexOf(coOccurenceReverse);
+								index = BEST_WORDS_LIST.indexOf(coOccurenceReverse);
 							}
 
 							if(index != -1){
@@ -419,13 +463,13 @@ public class InputVectorGenerationHelper {
 						writer.println(vectorCoOccurenceString);
 					}
 
-					inputValuesMap.put(dataCount++, vectorData);
+					INPUT_VALUES_MAP.put(dataCount++, vectorData);
 
 				}
 
 			}
 
-			System.out.println("Done With Generating the Input Vectors "+inputValuesMap.size());
+			System.out.println("Done With Generating the Input Vectors "+INPUT_VALUES_MAP.size());
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -458,6 +502,14 @@ public class InputVectorGenerationHelper {
 	 */
 	public static void createInputVectors(Map<Integer,VectorData> inputVectorMap, int firstOption, int secondOption, 
 			List<String> columnList){
+		
+		//logic of calling the python script and generating the stemmed output goes here
+		System.out.println("Logic of running the Python File starts here");
+		//logic of running the python code    	
+		new PythonAdapter().exceutePythonScripts(ICommandLineConstants.RUN_PYTHON_COMMAND_LINUX,
+				columnList);
+		System.out.println("Logic of running the Python File ends here");
+		
 		FileOperationsAdapter fileOperAdapter = new FileOperationsAdapter();		
 
 		doPreliminaryTaskForStemmedInput(secondOption, fileOperAdapter);		
@@ -466,35 +518,42 @@ public class InputVectorGenerationHelper {
 		StringBuffer wordsDiscovered = fileOperAdapter.getTotalNoOfWords();
 
 		if(GenericHelper.isBestWordsOptionSelected(secondOption)){
-			//logic of calling the python script and generating the stemmed output goes here
-			if(columnList.size() > 0 ){
-				System.out.println("Reading into Stemmed Data and writing into Input File");
-				fileOperAdapter.readFromFile(STEMMED_DATA_FILE_READER,IGenericConstants.STEMMED_FILE);
-			}
 			
+			
+			System.out.println("Logic of Reading into Stemmed Data and writing into Input File starts here");
+			fileOperAdapter.readFromFile(STEMMED_DATA_FILE_READER,IGenericConstants.STEMMED_FILE);
+			System.out.println("Logic of Reading into Stemmed Data and writing into Input File ends here");
+
+
+			System.out.println("Logic of parsing and mapping columns from FullyRedactedDocs starts here");
+
 			//logic of copying data from FullyRedactedDocs into Input sheet
 			fileOperAdapter.readFromFile(FULLY_REDACTED_FILE_PARSER, IGenericConstants.FULLY_REDACTED_FILE_NAME);
+
 			
-			//logic of running the python code
-			new PythonAdapter().exceutePythonScripts(ICommandLineConstants.RUN_PYTHON_COMMAND_LINUX);
-			
+			System.out.println("Logic of parsing the Best words File starts here");
 			//prints the Best Words Vector file
 			fileOperAdapter.readFromFile(BEST_WORDS_FILE);
+			System.out.println("Logic of generating co-occurences starts here");
 			//browser through every VectorData object and 
 			generateTfCooccurenceValuesIntoVectorsForBestWords(inputVectorMap,vectorDataList, firstOption);
+			System.out.println("Logic of generating co-occurences ends here");
+			System.out.println("Logic of generating template vector file starts here");
 			fileOperAdapter.writeToFile(BEST_WORDS_TEMPLATE_VECTOR_FILE);
-			
+			System.out.println("Logic of generating template vector file ends here");
+
 			//executing the command to create DWM Files
-			try{
-				String command = ICommandLineConstants.RUN_GROWING_SOM_COMMAND_WINDOWS;
-				if(!GenericHelper.isWindows()){
-					command =  ICommandLineConstants.RUN_GROWING_SOM_COMMAND_LINUX;
-				}
-				Process p = Runtime.getRuntime().exec(command);	
-				p.waitFor();
-			}catch(Exception e){
-				System.out.println(e);
-			}
+			String command = ICommandLineConstants.WINDOWS_OUTPUT_GROWING_COMMAND_1+
+					ICommandLineConstants.WINDOWS_OUTPUT_GROWING_COMMAND_2+
+					ICommandLineConstants.RUN_GROWING_SOM_COMMAND_WINDOWS;
+			
+			if(!GenericHelper.isWindows()){
+				command =  ICommandLineConstants.RUN_GROWING_SOM_COMMAND_LINUX;
+			} 
+			
+			new SOMToolboxAdapter().executeGrowingSOMScript(command);
+			System.out.println("Logic of running SOMToolbox Command ends here");
+
 		}
 		else{
 			//adding unique words to dictionary
@@ -504,13 +563,13 @@ public class InputVectorGenerationHelper {
 			generateTfCooccurenceValuesIntoVectors(inputVectorMap,vectorDataList, firstOption);
 		}
 
-		if(firstOption == templateVectorFileCreationOption && !GenericHelper.isBestWordsOptionSelected(secondOption) ){
+		if(firstOption == TEMPLATE_VECTOR_FILE_CREATION_OPTION && !GenericHelper.isBestWordsOptionSelected(secondOption) ){
 			//prints the input Vector file
 			fileOperAdapter.writeToFile(TEMPLATE_VECTOR_FILE);
 		}
 
 
-		if(firstOption == blParserFileOption){
+		if(firstOption == BL_PARSER_FILE_OPTION){
 			fileOperAdapter.writeToFile(CUSTOM_SOM_PARSER_UNIT_OUTPUT_FILE);
 		}
 

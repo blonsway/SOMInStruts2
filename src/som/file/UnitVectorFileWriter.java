@@ -1,8 +1,53 @@
-/**
+/*
+ *  
+ *	Tech For Good Portal 
+ *	Proof of Concept
+ *	J P Morgan Chase Technology Center at Syracuse University
  * 
- * Creates unit Vector File
+ *	Authored by: 
+ *	Last Revision: 1.0
+ *	Last Revised by: Prashant Patel
+ *
+ *	Version 1.0
+ *
+ *  	Principal Investigators
+ *		Kathleen Brandt
+ *		Brian Lonsway
+ *		Steve Masiclat
+ *
+ * 	Contributors
+ *		Lead Java Developer & Research Assistant: Prashant Patel
+ *		Java Developer & Research Assistant: Ravi Nagendra
+ *		Python Developer: Brian Lonsway
+ * 
+ *	This document is a part of the source code and related artifacts
+ * 	for the Tech For Good Portal, an open source proof of concept developed
+ *	for J P Morgan Chase.
+ *
+ * 	Copyright © 2015, jointly held by 
+ *		Kathleen Brandt, Brian Lonsway, and Steve Masiclat; 
+ *		Syracuse University; and
+ *		J P Morgan Chase.
+ *
+ *   	This file is part of TechForGoodPortal.
+ *
+ *    	TechForGoodPortal is free software: you can redistribute it and/or modify
+ *    	it under the terms of the GNU General Public License version 3 as published by
+ *    	the Free Software Foundation.
+ *
+ *    	TechForGoodPortal is distributed in the hope that it will be useful,
+ *    	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    	GNU General Public License for more details.
+ *
+ *    	See <http://www.gnu.org/licenses/> for a copy of the GNU General Public License.
+ *    	
+ *
+ * 		Creates unit Vector file
  * 
  */
+
+
 package som.file;
 
 import java.io.PrintWriter;
@@ -20,17 +65,17 @@ public class UnitVectorFileWriter implements IFileWritable{
 			writer.println("$GRID_LAYOUT rectangular");
 			writer.println("$GRID_TOPOLOGY planar");
 			writer.println("$FILE_FORMAT_VERSION 1.2");
-			writer.println("$XDIM "+IMatrixConstants.somMatrixRowSize);
-			writer.println("$YDIM "+IMatrixConstants.somMatrixColumnSize);
-			for (int j = 0; j <IMatrixConstants.somMatrixColumnSize; j++)
+			writer.println("$XDIM "+IMatrixConstants.SOM_MATRIX_ROW_SIZE);
+			writer.println("$YDIM "+IMatrixConstants.SOM_MATRIX_COLUMN_SIZE);
+			for (int j = 0; j <IMatrixConstants.SOM_MATRIX_COLUMN_SIZE; j++)
 			{
-				for (int i = 0; i <IMatrixConstants.somMatrixRowSize; i++)
+				for (int i = 0; i <IMatrixConstants.SOM_MATRIX_ROW_SIZE; i++)
 				{
 					writer.println("$POS_X "+i);
 					writer.println("$POS_Y "+j);
-					if(IMatrixConstants.documentMatrix[i][j] != null){
-						String[] mappedDocNumberString =IMatrixConstants.documentMatrix[i][j].split(",");
-						String[] mappedVectorDistanceString =IMatrixConstants.minDistanceMatrix[i][j].split(",");
+					if(IMatrixConstants.DOCUMENT_MATRIX[i][j] != null){
+						String[] mappedDocNumberString =IMatrixConstants.DOCUMENT_MATRIX[i][j].split(",");
+						String[] mappedVectorDistanceString =IMatrixConstants.MIN_DISTANCE_MATRIX[i][j].split(",");
 
 						if(mappedDocNumberString != null && mappedDocNumberString.length > 0 &&
 								mappedVectorDistanceString != null && mappedVectorDistanceString.length > 0){

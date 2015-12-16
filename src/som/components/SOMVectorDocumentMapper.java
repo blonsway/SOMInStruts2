@@ -1,9 +1,54 @@
-/**
+/*
+ *  
+ *	Tech For Good Portal 
+ *	Proof of Concept
+ *	J P Morgan Chase Technology Center at Syracuse University
  * 
- * Class responsible for comparing the vectors with their respective SOM Nodes, and calling
- * SOM Trainer module for weight adjustments
+ *	Authored by: 
+ *	Last Revision: 1.0
+ *	Last Revised by: Prashant Patel
+ *
+ *	Version 1.0
+ *
+ *  	Principal Investigators
+ *		Kathleen Brandt
+ *		Brian Lonsway
+ *		Steve Masiclat
+ *
+ * 	Contributors
+ *		Lead Java Developer & Research Assistant: Prashant Patel
+ *		Java Developer & Research Assistant: Ravi Nagendra
+ *		Python Developer: Brian Lonsway
+ * 
+ *	This document is a part of the source code and related artifacts
+ * 	for the Tech For Good Portal, an open source proof of concept developed
+ *	for J P Morgan Chase.
+ *
+ * 	Copyright © 2015, jointly held by 
+ *		Kathleen Brandt, Brian Lonsway, and Steve Masiclat; 
+ *		Syracuse University; and
+ *		J P Morgan Chase.
+ *
+ *   	This file is part of TechForGoodPortal.
+ *
+ *    	TechForGoodPortal is free software: you can redistribute it and/or modify
+ *    	it under the terms of the GNU General Public License version 3 as published by
+ *    	the Free Software Foundation.
+ *
+ *    	TechForGoodPortal is distributed in the hope that it will be useful,
+ *    	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    	GNU General Public License for more details.
+ *
+ *    	See <http://www.gnu.org/licenses/> for a copy of the GNU General Public License.
+ *    	
+ *
+ * 		Class responsible for comparing the vectors with their respective SOM Nodes, and calling
+ * 		SOM Trainer module for weight adjustments
  * 
  */
+
+
 
 package som.components;
 
@@ -21,14 +66,14 @@ import som.notifier.SOMNotifier;
 import som.observer.SOMObserver;
 
 //static imports
-import static som.constants.IGenericConstants.inputValuesMap;
-import static som.constants.IDWMFileConstants.dwmInfoMap;
-import static som.constants.IMatrixConstants.documentMatrix;
-import static som.constants.IMatrixConstants.minDistanceMatrix;
-import static som.constants.IMatrixConstants.somMatrixColumnSize;
-import static som.constants.IMatrixConstants.somMatrixRowSize;
-import static som.constants.IMatrixConstants.somMatrix;
-import static som.constants.IGenericConstants.randomSOMVectorMap;
+import static som.constants.IGenericConstants.INPUT_VALUES_MAP;
+import static som.constants.IDWMFileConstants.DWM_INFO_MAP;
+import static som.constants.IMatrixConstants.DOCUMENT_MATRIX;
+import static som.constants.IMatrixConstants.MIN_DISTANCE_MATRIX;
+import static som.constants.IMatrixConstants.SOM_MATRIX_COLUMN_SIZE;
+import static som.constants.IMatrixConstants.SOM_MATRIX_ROW_SIZE;
+import static som.constants.IMatrixConstants.SOM_MATRIX;
+import static som.constants.IGenericConstants.RANDOM_SOM_VECTOR_MAP;
 
 
 
@@ -50,7 +95,7 @@ public class SOMVectorDocumentMapper extends SOMObserver {
 		if(isTrainingRequired){
 			somTrainerAdapter = new SOMTrainerAdapter();
 		}
-		for(Map.Entry<Integer, VectorData> entry : inputValuesMap.entrySet())
+		for(Map.Entry<Integer, VectorData> entry : INPUT_VALUES_MAP.entrySet())
 		{
 			int documentNumber = entry.getKey();
 			VectorData inputVector = entry.getValue();
@@ -74,9 +119,9 @@ public class SOMVectorDocumentMapper extends SOMObserver {
 		Map<String,Integer> minPositionInfo = new HashMap<String, Integer>();
 		double minimum = documentArray[0][0] ;
 		int iPos = 0, jPos = 0;
-		for (int i = 0; i < somMatrixRowSize; i++)
+		for (int i = 0; i < SOM_MATRIX_ROW_SIZE; i++)
 		{
-			for (int j = 0; j < somMatrixColumnSize; j++)
+			for (int j = 0; j < SOM_MATRIX_COLUMN_SIZE; j++)
 			{
 				double distanceValue = documentArray[i][j];
 				if(distanceValue < minimum){
@@ -87,15 +132,15 @@ public class SOMVectorDocumentMapper extends SOMObserver {
 
 			}
 		}
-		if (documentMatrix[iPos][jPos] == null)
+		if (DOCUMENT_MATRIX[iPos][jPos] == null)
 		{
-			documentMatrix[iPos][jPos] = documentNumber +"";
-			minDistanceMatrix[iPos][jPos] = minimum +" ";
+			DOCUMENT_MATRIX[iPos][jPos] = documentNumber +"";
+			MIN_DISTANCE_MATRIX[iPos][jPos] = minimum +" ";
 		}
 		else
 		{
-			documentMatrix[iPos][jPos] += ","+ documentNumber;
-			minDistanceMatrix[iPos][jPos] += ","+ minimum;
+			DOCUMENT_MATRIX[iPos][jPos] += ","+ documentNumber;
+			MIN_DISTANCE_MATRIX[iPos][jPos] += ","+ minimum;
 
 		}
 		System.out.println("Shortest distance is " + minimum + " found at documentMatrix[" + iPos + "," + jPos + "]");
@@ -114,20 +159,20 @@ public class SOMVectorDocumentMapper extends SOMObserver {
 	{
 		PriorityQueue<SOMDimensionRelation> somDimensionQueue = new PriorityQueue<SOMDimensionRelation>(
 				90000, new SOMDistanceComparator());
-		double[][] documentArray = new double[somMatrixRowSize][somMatrixColumnSize];
+		double[][] documentArray = new double[SOM_MATRIX_ROW_SIZE][SOM_MATRIX_COLUMN_SIZE];
 
-		for (int i = 0; i <somMatrixRowSize; i++)
+		for (int i = 0; i <SOM_MATRIX_ROW_SIZE; i++)
 		{
-			for (int j = 0; j <somMatrixColumnSize; j++)
+			for (int j = 0; j <SOM_MATRIX_COLUMN_SIZE; j++)
 			{
-				int somPosition = somMatrix[i][j];
+				int somPosition = SOM_MATRIX[i][j];
 				documentArray[i][j] =  new SOMBestMatchingUnitFinder().computeEuclideanDistance(
-						inputVector,randomSOMVectorMap.get(somPosition));
+						inputVector,RANDOM_SOM_VECTOR_MAP.get(somPosition));
 				SOMDimensionRelation somDimension = new SOMDimensionRelation(i, j, documentArray[i][j]);
 				somDimensionQueue.add(somDimension);
 			}
 		}
-		dwmInfoMap.put(documentNumber, somDimensionQueue);
+		DWM_INFO_MAP.put(documentNumber, somDimensionQueue);
 		Map<String,Integer> minPositionInfo = getMinimumPositionAndStoreInDocumentMatrix(documentNumber, documentArray);
 		if(somTrainerAdapter != null){
 			this.noOfIteration++;
